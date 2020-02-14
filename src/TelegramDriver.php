@@ -159,13 +159,13 @@ class TelegramDriver extends HttpDriver
      */
     public function messagesHandled()
     {
-        $callback = $this->payload->get('callback_query');
-
-        if ($callback !== null) {
-            $callback['message']['chat']['id'];
-            $this->removeInlineKeyboard($callback['message']['chat']['id'],
-                $callback['message']['message_id']);
-        }
+//        $callback = $this->payload->get('callback_query');
+//
+//        if ($callback !== null) {
+//            $callback['message']['chat']['id'];
+//            $this->removeInlineKeyboard($callback['message']['chat']['id'],
+//                $callback['message']['message_id']);
+//        }
     }
 
     /**
