@@ -39,8 +39,15 @@ class TelegramDriver extends HttpDriver
 
     protected $messages = [];
 
+    protected $token = null;
+
     /** @var Collection */
     protected $queryParameters;
+
+    public function setToken() {
+        $botman = app('botman');
+        $this->token = $botman->getMessage()->getExtras('token');
+    }
 
     /**
      * @param Request $request
@@ -142,7 +149,8 @@ class TelegramDriver extends HttpDriver
             ->sort();
         $check_string = implode("\n", $check->toArray());
 
-        $secret = hash('sha256', $this->config->get('token'), true);
+//        $secret = hash('sha256', $this->config->get('token'), true);
+        $secret = hash('sha256', $this->token, true);
         $hash = hash_hmac('sha256', $check_string, $secret);
 
         if (strcmp($hash, $check_hash) !== 0) {
@@ -376,7 +384,9 @@ class TelegramDriver extends HttpDriver
      */
     public function isConfigured()
     {
-        return ! empty($this->config->get('token'));
+        $this->setToken();
+//        return ! empty($this->config->get('token'));
+        return ! empty($this->token);
     }
 
     /**
@@ -404,7 +414,9 @@ class TelegramDriver extends HttpDriver
      */
     protected function buildApiUrl($endpoint)
     {
-        return self::API_URL.$this->config->get('token').'/'.$endpoint;
+        $this->setToken();
+//        return self::API_URL.$this->config->get('token').'/'.$endpoint;
+        return self::API_URL.$this->token.'/'.$endpoint;
     }
 
     /**
@@ -415,6 +427,8 @@ class TelegramDriver extends HttpDriver
      */
     protected function buildFileApiUrl($endpoint)
     {
-        return self::FILE_API_URL.$this->config->get('token').'/'.$endpoint;
+        $this->setToken();
+//        return self::FILE_API_URL.$this->config->get('token').'/'.$endpoint;
+        return self::FILE_API_URL.$this->token.'/'.$endpoint;
     }
 }
