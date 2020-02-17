@@ -44,9 +44,8 @@ class TelegramDriver extends HttpDriver
     /** @var Collection */
     protected $queryParameters;
 
-    public function setToken() {
-        $botman = app('botman');
-        $this->token = $botman->getMessage()->getExtras('token');
+    public function setToken($token) {
+        $this->token = $token;
     }
 
     /**
@@ -384,9 +383,8 @@ class TelegramDriver extends HttpDriver
      */
     public function isConfigured()
     {
-        $this->setToken();
-//        return ! empty($this->config->get('token'));
-        return ! empty($this->token);
+        return ! empty($this->config->get('token'));
+//        return ! empty($this->token);
     }
 
     /**
@@ -414,7 +412,6 @@ class TelegramDriver extends HttpDriver
      */
     protected function buildApiUrl($endpoint)
     {
-        $this->setToken();
 //        return self::API_URL.$this->config->get('token').'/'.$endpoint;
         return self::API_URL.$this->token.'/'.$endpoint;
     }
@@ -427,7 +424,6 @@ class TelegramDriver extends HttpDriver
      */
     protected function buildFileApiUrl($endpoint)
     {
-        $this->setToken();
 //        return self::FILE_API_URL.$this->config->get('token').'/'.$endpoint;
         return self::FILE_API_URL.$this->token.'/'.$endpoint;
     }
